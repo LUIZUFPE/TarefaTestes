@@ -71,5 +71,46 @@ afl-fuzz -h
 
 Se a ajuda do AFL++ for exibida, a instalação foi concluída com sucesso.
 
-````
-````
+
+## 6. Compilação de um programa C com AFL++
+
+Após a instalação do AFL++, é possível compilar programas em C utilizando o compilador instrumentado `afl-clang-fast`, que adiciona automaticamente a instrumentação necessária para o fuzzing.
+
+### 6.1. Criação do diretório de testes
+
+Primeiro, crie um diretório para organizar os arquivos do projeto.  
+O nome do diretório é livre; neste tutorial será utilizado o diretório `afl-teste` apenas como exemplo:
+
+```bash
+mkdir afl-teste
+cd afl-teste
+```
+
+### 6.2. Criação do arquivo de teste
+O nome do arquivo pode ser escolhido livremente, assim como o seu conteúdo, de acordo com o programa que se deseja testar com fuzzing.
+Para fins de organização, todos os arquivos relacionados ao teste ficam dentro do diretório afl-teste.
+
+Exemplo de criação de um arquivo em C:
+
+```bash
+code programa.c
+```
+Observação: o arquivo programa.c é apenas um exemplo. Qualquer nome de arquivo e qualquer lógica de código podem ser utilizados, conforme o interesse do usuário.
+
+### 6.3. Compilação do programa
+Após criar o arquivo, utilize o compilador instrumentado do AFL++ para gerar o binário:
+
+```bash
+afl-clang-fast programa.c -o programa
+```
+Esse comando gera um executável instrumentado, pronto para ser utilizado posteriormente com o afl-fuzz.
+
+### 6.3.1 Garantindo a disponibilidade do AFL++
+Caso necessário, é possível garantir que as ferramentas do AFL++ estejam disponíveis no sistema por meio do gerenciador de pacotes do Ubuntu:
+```bash
+Copiar código
+sudo apt install afl++
+```
+Após a instalação, ferramentas como afl-fuzz, afl-clang-fast e afl-cc estarão disponíveis globalmente no sistema.
+
+
