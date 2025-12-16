@@ -93,15 +93,15 @@ Para fins de organização, todos os arquivos relacionados ao teste ficam dentro
 Exemplo de criação de um arquivo em C:
 
 ```bash
-code programa.c
+code programaTarefa.c
 ```
-Observação: o arquivo programa.c é apenas um exemplo. Qualquer nome de arquivo e qualquer lógica de código podem ser utilizados, conforme o interesse do usuário.
+Observação: o arquivo programaTarefa.c é apenas um exemplo. Qualquer nome de arquivo e qualquer lógica de código podem ser utilizados, conforme o interesse do usuário.
 
 ### 6.3. Compilação do programa
 Após criar o arquivo, utilize o compilador instrumentado do AFL++ para gerar o binário:
 
 ```bash
-afl-clang-fast programa.c -o programa
+afl-clang-fast -o programaTarefa programaTarefa.c
 ```
 Esse comando gera um executável instrumentado, pronto para ser utilizado posteriormente com o afl-fuzz.
 
@@ -122,14 +122,14 @@ Esses arquivos servem como ponto de partida para que o fuzzer gere novas variaç
 Dentro do diretório do projeto (`afl-teste`), crie o diretório de seeds:
 
 ```bash
-mkdir seeds
+mkdir seeds_programaTarefa
 ```
 ### 7.2. Criação de um seed inicial
 O nome do arquivo e o conteúdo do seed são livres e devem estar de acordo com o formato de entrada esperado pelo programa testado.
 Exemplo de criação de um seed simples:
 
 ```bash
-echo teste > seeds/input1.txt
+echo "AA" > seeds_programaTarefa/seed1.txt
 ```
 Esse arquivo será utilizado pelo AFL++ como entrada inicial durante o fuzzing.
 
@@ -151,7 +151,7 @@ Essa variável informa ao AFL++ que a ausência de crashes não deve interromper
 Após definir a variável de ambiente, execute o fuzzing normalmente:
 
 ```bash
-afl-fuzz -i seeds -o out -- ./programa @@
+afl-fuzz -i seeds_programaTarefa -o out_programaTarefa ./programaTarefa @@
 ```
 ## 10. Opção extra: exploração dos arquivos de crash
 
