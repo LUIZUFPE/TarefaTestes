@@ -147,9 +147,46 @@ export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
 ```
 Essa variável informa ao AFL++ que a ausência de crashes não deve interromper ou invalidar a execução do fuzzing.
 
-9. Execução do AFL++ com a configuração aplicada
+## 9. Execução do AFL++ com a configuração aplicada
 Após definir a variável de ambiente, execute o fuzzing normalmente:
 
 ```bash
 afl-fuzz -i seeds -o out -- ./programa @@
+```
+## 10. Opção extra: exploração dos arquivos de crash
+
+Caso o usuário queira explorar com mais detalhes os arquivos gerados na saída de crashes, é possível utilizar um programa específico para análise de comportamento diante de falhas, como o arquivo `crash.c`.
+
+### 10.1. Disponibilidade do arquivo `crash.c`
+
+O arquivo `crash.c` está disponível neste repositório e pode ser utilizado diretamente para fins de estudo e experimentação.  
+Seu objetivo é provocar falhas de forma controlada, permitindo observar o comportamento do AFL++ diante de situações de crash.
+
+### 10.2. Compilação do arquivo `crash.c`
+
+Após acessar o diretório do projeto, compile o arquivo utilizando o compilador instrumentado do AFL++:
+
+```bash
+afl-clang-fast crash.c -o crash
+```
+### 10.3. Execução com AFL++
+Após a compilação, utilize os mesmos comandos de execução já apresentados anteriormente no tutorial, incluindo:
+
+o diretório de seeds;
+
+o diretório de saída (out);
+
+a variável de ambiente de dont care about missing crashes.
+
+Em seguida, execute o fuzzing normalmente, substituindo apenas o binário alvo pelo executável crash.
+Essa execução permitirá observar o comportamento da ferramenta diante de situações de falha e analisar os arquivos gerados no diretório de saída.
+```bash
+# seed
+echo teste > seeds/input1.txt
+
+# variável de ambiente (dont care about missing crashes)
+export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
+
+# execução do AFL++
+afl-fuzz -i seeds -o out -- ./crash @@
 ```
