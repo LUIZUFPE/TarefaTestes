@@ -108,9 +108,48 @@ Esse comando gera um executável instrumentado, pronto para ser utilizado poster
 ### 6.3.1 Garantindo a disponibilidade do AFL++
 Caso necessário, é possível garantir que as ferramentas do AFL++ estejam disponíveis no sistema por meio do gerenciador de pacotes do Ubuntu:
 ```bash
-Copiar código
 sudo apt install afl++
 ```
 Após a instalação, ferramentas como afl-fuzz, afl-clang-fast e afl-cc estarão disponíveis globalmente no sistema.
 
+## 7. Preparação dos seeds (casos de entrada iniciais)
 
+Antes de executar o `afl-fuzz`, é necessário fornecer um conjunto inicial de entradas, chamadas de **seeds**.  
+Esses arquivos servem como ponto de partida para que o fuzzer gere novas variações de teste.
+
+### 7.1. Criação do diretório de seeds
+
+Dentro do diretório do projeto (`afl-teste`), crie o diretório de seeds:
+
+```bash
+mkdir seeds
+```
+### 7.2. Criação de um seed inicial
+O nome do arquivo e o conteúdo do seed são livres e devem estar de acordo com o formato de entrada esperado pelo programa testado.
+Exemplo de criação de um seed simples:
+
+```bash
+echo teste > seeds/input1.txt
+```
+Esse arquivo será utilizado pelo AFL++ como entrada inicial durante o fuzzing.
+
+## 8. Configuração para ignorar crashes ausentes (dont-care-crashes)
+
+Em alguns cenários de teste, especialmente em fases iniciais de fuzzing, é aceitável não se preocupar com a ausência de crashes esperados.  
+Para esse comportamento, é possível configurar uma variável de ambiente antes de executar o `afl-fuzz`.
+
+### 8.1. Definição da variável de ambiente
+
+Execute o comando abaixo no terminal:
+
+```bash
+export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
+```
+Essa variável informa ao AFL++ que a ausência de crashes não deve interromper ou invalidar a execução do fuzzing.
+
+9. Execução do AFL++ com a configuração aplicada
+Após definir a variável de ambiente, execute o fuzzing normalmente:
+
+```bash
+afl-fuzz -i seeds -o out -- ./programa @@
+```
