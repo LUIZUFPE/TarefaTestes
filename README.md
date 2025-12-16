@@ -151,7 +151,7 @@ Essa variável informa ao AFL++ que a ausência de crashes não deve interromper
 Após definir a variável de ambiente, execute o fuzzing normalmente:
 
 ```bash
-afl-fuzz -i seeds_programaTarefa -o out_programaTarefa ./programaTarefa @@
+afl-fuzz -i seeds_programaTarefa -o out_programaTarefa ./programaTarefa
 ```
 ## 10. Opção extra: exploração dos arquivos de crash
 
@@ -182,11 +182,12 @@ Em seguida, execute o fuzzing normalmente, substituindo apenas o binário alvo p
 Essa execução permitirá observar o comportamento da ferramenta diante de situações de falha e analisar os arquivos gerados no diretório de saída.
 ```bash
 # seed
-echo teste > seeds/input1.txt
+mkdir seeds_crash
+echo "A" > seeds_crash/input1.txt
 
 # variável de ambiente (dont care about missing crashes)
 export AFL_I_DONT_CARE_ABOUT_MISSING_CRASHES=1
 
 # execução do AFL++
-afl-fuzz -i seeds -o out -- ./crash @@
+afl-fuzz -i seeds_crash -o out_crash -- ./crash @@
 ```
